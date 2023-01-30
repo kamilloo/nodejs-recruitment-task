@@ -1,14 +1,59 @@
 version: "3.2"
 services:
-  app:
+  auth:
     command: node src/server.js
     build:
-      context: .
+      context: auth
       dockerfile: Dockerfile
+    container_name: auth
     ports:
       - published: ${APP_PORT:-3000}
         target: 3000
     volumes:
-      - .:/app/
+      - ./auth/:/app/
     environment:
       JWT_SECRET: ${JWT_SECRET}
+    networks:
+      movies:
+
+  movies:
+    command: node src/server.js
+    build:
+      context: movies
+      dockerfile: Dockerfile
+    container_name: movies
+    ports:
+      - published: ${MOVIES_PORT:-3001}
+        target: 3000
+    volumes:
+      - ./movies/:/app/
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+    networks:
+      movies:
+
+  db:
+    image: mysql:8.0
+    container_name: movies_db
+    networks:
+      movies:
+    environment:
+      MYSQL_DATABASE: 'movies'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - movies-db:/var/lib/mysql
+
+
+volumes:
+  movies-db:
+
+networks:
+  movies:
+    driver: bridge
+
