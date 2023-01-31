@@ -9,6 +9,7 @@ describe('Welcome Page', () => {
             .get('/')
             .expect(200)
             .end((err,res) => {
+                chai.expect(res.status).to.be.eql(200);
                 chai.expect(res.body.message).to.be.eql('Welcome to Movies App!');
             });
     });

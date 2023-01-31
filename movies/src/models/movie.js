@@ -1,16 +1,11 @@
 class Movie{
 
-    constructor(title, description) {
+    constructor(title) {
         this._title = title;
-        this._description = description;
     }
 
     get title(){
         return this._title;
-    }
-
-    get description(){
-        return this._description
     }
 }
 

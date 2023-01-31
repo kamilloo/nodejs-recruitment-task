@@ -11,13 +11,12 @@ exports.get = (req, res) => {
 }
 
 exports.create = async (req, res) => {
-    const { title, description } = req.body;
-    const newMovie = new Movie(title, description);
+    const { title } = req.body;
+    const newMovie = new Movie(title);
     try {
         await movieRepository.save(newMovie);
         return res.status(201).json({
-            message: "Movie created successful",
-            data: newMovie
+            data: movieTransform.toResponse(newMovie)
         });
     } catch (error) {
         return res.status(412).send({

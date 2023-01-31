@@ -2,15 +2,31 @@ const express = require('express');
 const chai = require('chai');
 const request = require('supertest');
 const app = require('../../../../src/server');
+const jwt = require("jsonwebtoken");
+const {User} = require("../../../../src/models/user");
+
+
 
 describe('Movies', () => {
-    // beforeEach(async () => {
-    //
-    // })
-    //
-    // afterEach(async () => {
-    //
-    // })
+
+    let token = null;
+
+    beforeEach(async () => {
+
+        let secret = 'secret'
+        process.env.JWT_SECRET = 'secret'
+        let user = new User(1, 'name', 'basic')
+        token = jwt.sign(
+            {
+                userId: user.id,
+                name: user.name,
+                role: user.role,
+            }, secret)
+    })
+
+    afterEach(async () => {
+        token = null;
+    })
 
     it('getting all Movies successful',   (done) => {
 
@@ -20,7 +36,7 @@ describe('Movies', () => {
         //WHEN
         request(app)
             .get('/movies')
-            .expect(200)
+            .set('Authorization', `Bearer ${token}`)
             .then((res) => {
 
                 //THEN
@@ -32,23 +48,36 @@ describe('Movies', () => {
             });
     });
 
+    it('getting all Movies failed when authentication error',  (done) => {
+
+        //WHEN
+        request(app)
+            .get('/movies')
+            .end((err, res) => {
+
+                //THEN
+                chai.expect(res.status).to.be.eql(401);
+                done()
+            });
+    });
+
     it('create Movie successful',  (done) => {
 
         //GIVEN
         let entryData = {
             title: 'Superhero',
-            body: "Superhero best movie"
         };
 
         //WHEN
         request(app)
             .post('/movies')
+            .set('Authorization', `Bearer ${token}`)
             .send(entryData)
             .end((err,res) => {
 
                 //THEN
                 chai.expect(res.status).to.be.eql(201);
-                chai.expect(res.body.message).to.be.eql('Welcome to Movies App!');
+                chai.expect(res.body.data.title).to.be.eql(entryData.title);
                 done()
             });
     });
@@ -62,13 +91,29 @@ describe('Movies', () => {
         request(app)
             .post('/movies')
             .send(entryData)
+            .set('Authorization', `Bearer ${token}`)
             .end((err,res) => {
 
+                let errors = res.body.errors
                 //THEN
                 chai.expect(res.status).to.be.eql(422);
-                // chai.expect(res.body.errors).to.be.eql('Welcome to Movies App!');
+                chai.expect(errors.title[0]).to.be.eql('The title field is required.');
                 done()
             });
     });
+
+    it('create movie failed when authentication error',  (done) => {
+
+        //WHEN
+        request(app)
+            .post('/movies')
+            .end((err, res) => {
+
+                //THEN
+                chai.expect(res.status).to.be.eql(401);
+                done()
+            });
+    });
+
 
 })
