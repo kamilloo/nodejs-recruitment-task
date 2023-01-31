@@ -1,7 +1,5 @@
 const express = require("express");
-const router = express.Router();
-const auth = require('middlewares/auth');
-const movieController = require('http/controllers/movieController');
+const moviesRouter = require("./routes/movies")
 
 
 const bodyParser = require("body-parser");
@@ -10,17 +8,19 @@ const PORT = 3000;
 const { JWT_SECRET } = process.env;
 
 if (!JWT_SECRET) {
-  throw new Error("Missing JWT_SECRET env var. Set it and restart the server");
+  // throw new Error("Missing JWT_SECRET env var. Set it and restart the server");
 }
+
 const app = express();
 
 app.use(bodyParser.json());
 
-router.get('/', auth, movieController.get);
-router.post('/', auth, movieController.create);
+app.get("/", (req, res) => res.json({message: "Welcome to Movies App!"}));
 
-module.exports = router;
+app.use(moviesRouter);
 
 app.listen(PORT, () => {
   console.log(`auth svc running at port ${PORT}`);
 });
+
+module.exports = app

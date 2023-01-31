@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "JWT_SECRET=secret mocha tests --recursive"
   },
   "keywords": [],
   "author": "",
@@ -11,10 +11,13 @@
   "dependencies": {
     "body-parser": "1.19.0",
     "express": "4.17.1",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.9.0",
+    "validatorjs": "^3.22.1"
   },
   "devDependencies": {
     "chai": "^4.3.7",
-    "mocha": "^10.2.0"
+    "mocha": "^10.2.0",
+    "supertest": "^6.3.3"
   }
 }
