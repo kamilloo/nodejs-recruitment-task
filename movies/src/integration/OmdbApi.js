@@ -4,7 +4,7 @@ const omdbParser = require('./OmdbParser')
 const omdbQueryParams = require('./OmdbQueryParams')
 const {MovieNotFoundDTO} = require("../models/DTO/movieNotFoundDTO");
 
-const logger = pino({level: 'info'})
+const logger = pino({level: process.env.LOGGER_LEVEL || 'fatal'})
 
 getByTitle = (title) => {
 
@@ -14,7 +14,7 @@ getByTitle = (title) => {
             logger.info(resp.data);
             return omdbParser.parse(resp.data)
         }).catch(err => {
-            logger.info(err);
+            logger.error(err);
             return new MovieNotFoundDTO(err.message)
         });
 }

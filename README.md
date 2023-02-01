@@ -1,3 +1,17 @@
+
+# Installation
+
+
+# Usage
+
+
+# Links
+Api Documentation:
+Auth API:
+Movie API:
+
+
+===============================================
 # Node.js recruitment task
 
 We'd like you to build a simple Movie API. It should provide two endpoints:

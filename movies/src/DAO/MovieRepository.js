@@ -1,11 +1,22 @@
 const {Movie} = require("../models/movie");
-getall = () => {
+getall = (userId) => {
     //@todo pagination
     return new Promise((resolve, reject) => {
-        resolve([
-            new Movie('title 1'),
-            new Movie('title 2')
-        ]);
+        if (userId == 1){
+            return resolve([
+                new Movie('title 1'),
+            ]);
+        }
+        return resolve([]);
+    });
+}
+
+inMonthCount = (userId) => {
+    return new Promise((resolve, reject) => {
+        if (userId == 1){
+            return resolve(1);
+        }
+        return resolve(6);
     });
 }
 
@@ -17,5 +28,6 @@ save = (newMovie) => {
 
 module.exports = {
     getall,
-    save
+    save,
+    inMonthCount
 }

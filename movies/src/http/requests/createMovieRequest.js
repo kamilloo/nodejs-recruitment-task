@@ -1,3 +1,5 @@
+const pino = require('pino')
+const logger = pino({level: process.env.LOGGER_LEVEL || 'fatal'})
 const validator = require('../../middlewares/validate');
 const createMovieRequest = async (req, res, next) => {
     const validationRule = {
@@ -5,7 +7,7 @@ const createMovieRequest = async (req, res, next) => {
     };
 
     await validator(req.body, validationRule, {}, res, next)
-        .catch( err => console.log(err))
+        .catch( err => logger.error(err))
 }
 module.exports = {
     createMovieRequest

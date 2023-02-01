@@ -14,7 +14,7 @@ describe('OmdbApi', () => {
         sinon.restore()
     })
 
-    it('Get Movie successful',  (done) => {
+    it('Grab Movie Details successful',  (done) => {
 
         //GIVEN
         let title = 'superhero'
@@ -42,7 +42,7 @@ describe('OmdbApi', () => {
     });
 
 
-    it('Get Movie failed',  (done) => {
+    it('Grab Movie Details failed',  (done) => {
 
         //GIVEN
         let title = 'superhero'
