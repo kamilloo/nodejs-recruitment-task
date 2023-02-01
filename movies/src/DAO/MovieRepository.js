@@ -1,6 +1,6 @@
-
 const {Movie} = require("../models/movie");
-exports.getall = () => {
+getall = () => {
+    //@todo pagination
     return new Promise((resolve, reject) => {
         resolve([
             new Movie('title 1'),
@@ -9,6 +9,13 @@ exports.getall = () => {
     });
 }
 
-exports.save = (newMovie) => {
-    return newMovie
+save = (newMovie) => {
+    return new Promise((resolve, reject) => {
+        resolve(newMovie);
+    });
+}
+
+module.exports = {
+    getall,
+    save
 }
