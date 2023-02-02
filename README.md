@@ -6,36 +6,34 @@
    ```
     cp .env.example .env
    ```
-3. Build docker images
+   
+3. Set `OMDB_API_KEY` var environment
+
+4. Build docker images
    ```
     docker-compose build
    ```
-4. Start docker containers
+5. Start docker containers
    ```
    docker-compose up -d
    ```
 
-4. Run database migration
+6. Run database migration
    ```
-   docker-compose up -d
+   docker exec -it movies npm run db-migrate
    ```
 
 # Usage
 
+1. Import Postman Collection and Environments from `movies/docs`
+2. After login copy token to postman Movies Environments
 
 
 # Links
-Api Documentation:
-Auth API:
-Movie API:
+Api Documentation: http://localhost:3001/api-docs/
+Auth API: http://localhost:3000/auth
+Movie API: http://localhost:3001/movies
 
-# Remarks
-     Released: date
-
-    "Title": "Superhero",
-    "Released": "N/A",
-    "Genre": "Short",
-    "Director": "Darren Walsh",
 
 ===============================================
 # Node.js recruitment task
