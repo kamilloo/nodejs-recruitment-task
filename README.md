@@ -10,6 +10,13 @@ Api Documentation:
 Auth API:
 Movie API:
 
+# Remarks
+     Released: date
+
+    "Title": "Superhero",
+    "Released": "N/A",
+    "Genre": "Short",
+    "Director": "Darren Walsh",
 
 ===============================================
 # Node.js recruitment task

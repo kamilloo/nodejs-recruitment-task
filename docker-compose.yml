@@ -1,36 +1,38 @@
 version: "3.2"
 services:
-  auth:
-    command: node src/server.js
-    build:
-      context: auth
-      dockerfile: Dockerfile
-    container_name: auth
-    ports:
-      - published: ${APP_PORT:-3000}
-        target: 3000
-    volumes:
-      - ./auth/:/app/
-    environment:
-      JWT_SECRET: ${JWT_SECRET}
-    networks:
-      movies:
-
-  movies:
-    command: node src/server.js
-    build:
-      context: movies
-      dockerfile: Dockerfile
-    container_name: movies
-    ports:
-      - published: ${MOVIES_PORT:-3001}
-        target: 3000
-    volumes:
-      - ./movies/:/app/
-    environment:
-      JWT_SECRET: ${JWT_SECRET}
-    networks:
-      movies:
+#  auth:
+#    command: node src/server.js
+#    build:
+#      context: auth
+#      dockerfile: Dockerfile
+#    container_name: auth
+#    ports:
+#      - published: ${APP_PORT:-3000}
+#        target: 3000
+#    volumes:
+#      - ./auth/:/app/
+#    environment:
+#      JWT_SECRET: ${JWT_SECRET}
+#    networks:
+#      movies:
+#
+#  movies:
+#    command: node src/server.js
+#    build:
+#      context: movies
+#      dockerfile: Dockerfile
+#    container_name: movies
+#    ports:
+#      - published: ${MOVIES_PORT:-3001}
+#        target: 3000
+#    volumes:
+#      - ./movies/:/app/
+#    environment:
+#      JWT_SECRET: ${JWT_SECRET}
+#      OMDB_API_KEY: ${MDB_API_KEY}
+#      LOGGER_LEVEL: ${LOGGER_LEVEL}
+#    networks:
+#      movies:
 
   db:
     image: mysql:8.0

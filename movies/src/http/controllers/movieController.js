@@ -5,17 +5,22 @@ const movieTransform = require("../responses/movieResponse")
 
 exports.get = (req, res) => {
 
-    const { userId } = req.userId;
+    const { userId } = req;
     return movieRepository.getall(userId)
-        .then(movies => movies.map(movie => movieTransform.toResponse(movie)))
-        .then(movies => res.json({data: movies}))
+        .then(movies => {
+            return {
+                data: movies.data.map(movie => movieTransform.toResponse(movie)),
+                meta: movies.meta
+            }
+        })
+        .then(movies => res.json(movies))
 }
 
 exports.create = async (req, res) => {
     const { title } = req.body;
-    const { userId } = req.userId;
+    const { userId, userRole } = req;
     let movieService = new MovieService();
-    const newMovie = await movieService.create(title, userId);
+    const newMovie = await movieService.create(title, userId, userRole);
     if (newMovie instanceof Movie){
         return res.status(201).json({
             data: movieTransform.toResponse(newMovie)

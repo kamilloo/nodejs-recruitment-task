@@ -9,11 +9,12 @@ const moviePolicyService = require("../../../src/services/MoviePolicyService")
 const {Movie} = require("../../../src/models/movie");
 const {MovieDTO} = require("../../../src/models/DTO/movieDTO");
 const {MovieNotFoundDTO} = require("../../../src/models/DTO/movieNotFoundDTO");
+const { BASIC } = require("../../../src/models/descriptors/UserRole")
 
 describe('MovieService', () => {
 
     beforeEach(async () => {
-        let user = new User(1, 'name', 'basic')
+        let user = new User(1, 'name', BASIC)
 
     })
 

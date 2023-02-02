@@ -27,9 +27,31 @@ describe('Omdb Parser', () => {
 
         //THEN
         chai.expect(movieDTO.title).to.be.eql(expectedTitle)
-        chai.expect(movieDTO.released).to.be.eql(expectedReleased)
+        chai.expect(movieDTO.released).to.be.eql(Date.parse(expectedReleased))
         chai.expect(movieDTO.genre).to.be.eql(expectedGenre)
         chai.expect(movieDTO.director).to.be.eql(expectedDirector)
+
+    });
+
+    it('parse Released N/A Movie Details successful',  () => {
+
+        //GIVEN
+        let expectedGenre = "Action, Adventure, Comedy";
+        let expectedTitle = "Guardians of the Galaxy Vol. 2";
+        let expectedReleased = "N/A";
+        let expectedDirector = "James Gunn";
+        let raw = {
+            "Title": expectedTitle,
+            "Released": expectedReleased,
+            "Genre": expectedGenre,
+            "Director": expectedDirector,
+        }
+
+        //WHEN
+        let movieDTO = omdbParser.parse(raw);
+
+        //THEN
+        chai.expect(movieDTO.released).to.be.eql(null)
 
     });
 

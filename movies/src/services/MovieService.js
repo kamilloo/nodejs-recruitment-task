@@ -7,11 +7,11 @@ const moviePolicyService = require("./MoviePolicyService")
 const logger = pino({level: process.env.LOGGER_LEVEL || 'fatal'})
 
 class MovieService {
-    create(title, userId, userRole){
+    async create(title, userId, userRole){
 
-        if (monthlyLimitExceed(userId,userRole)){
+        if (await monthlyLimitExceed(userId,userRole)){
             logger.error(`Monthly Limit exceed by ${userId}`)
-            return null;
+            return Promise.resolve(null);
         }
 
         return omdbApi.getByTitle(title)
@@ -30,7 +30,7 @@ class MovieService {
 
 }
 
-function monthlyLimitExceed(userId,userRole) {
-    return moviePolicyService.monthlyLimitExceed(userId,userRole)
+async function monthlyLimitExceed(userId,userRole) {
+    return await moviePolicyService.monthlyLimitExceed(userId,userRole)
 }
 module.exports = { MovieService }
