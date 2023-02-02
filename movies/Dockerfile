@@ -7,5 +7,6 @@ RUN npm install
 
 RUN mkdir ./src
 COPY ./src ./src
+COPY ./tests ./tests
 
 CMD ["node", "./src/server.js"]

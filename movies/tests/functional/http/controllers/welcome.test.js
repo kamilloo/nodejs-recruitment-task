@@ -13,4 +13,11 @@ describe('Welcome Page', () => {
                 chai.expect(res.body.message).to.be.eql('Welcome to Movies App!');
             });
     });
+
+    after(done => {
+        setTimeout(()=> {
+            process.exit(0);
+        },2000);
+        done();
+    })
 });

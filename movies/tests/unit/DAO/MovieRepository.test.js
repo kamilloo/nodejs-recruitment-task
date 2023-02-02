@@ -27,7 +27,7 @@ describe('MovieRepository', () => {
         const newMovie = new Movie('title','genre',new Date(),'director',other.id)
         movieRepository.save(newMovie)
             //WHEN
-            .then(() => movieRepository.getall(user.id))
+            .then(() => movieRepository.getByUser(user.id))
             .then((movies) => {
                 //THEN
                 chai.expect(movies.data).length(0);
@@ -43,7 +43,7 @@ describe('MovieRepository', () => {
         const newMovie = new Movie('title','genre',new Date(),'director',user.id)
         movieRepository.save(newMovie)
             //WHEN
-            .then(() => movieRepository.getall(user.id))
+            .then(() => movieRepository.getByUser(user.id))
             .then((movies) => {
 
                 //THEN
@@ -86,7 +86,7 @@ describe('Count monthly User\'s Movies', () => {
         const newMovie = new Movie('title','genre',new Date(),'director',user.id)
         const previous_month_date = new Date('2000-01-01');
         movieRepository.save(newMovie)
-            .then((movie) => movieRepository.find(newMovie))
+            .then((movie) => movieRepository.findLatest(newMovie))
             .then((movie) => {
                 newMovie.id = movie.id;
                 newMovie.createdAt = previous_month_date;

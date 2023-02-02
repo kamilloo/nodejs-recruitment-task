@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "OMDB_API_KEY=386a004e3 JWT_SECRET=secret LOGGER_LEVEL=fatal mocha tests --recursive",
+    "test": "APP_PORT=3002 mocha tests --recursive && exit 0",
     "start": "node src/server.js",
-    "mysql-setup": "node src/server.js"
+    "db-add-migration": "node src/commands/database-migration.js add migration",
+    "db-migrate": "node src/commands/database-migration.js up",
+    "db-migrate:rollback": "node src/commands/database-migration.js down",
+    "db-migrate:refresh": "node src/commands/database-migration.js refresh"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +20,7 @@
     "express": "4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
+    "mysql-migrations": "^1.0.7",
     "mysql2": "^3.1.0",
     "pino": "^8.8.0",
     "swagger-jsdoc": "^6.2.8",

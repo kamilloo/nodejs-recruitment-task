@@ -11,20 +11,29 @@ class MovieService {
 
         if (await monthlyLimitExceed(userId,userRole)){
             logger.error(`Monthly Limit exceed by ${userId}`)
-            return Promise.resolve(null);
+            return Promise.resolve('Monthly Limit exceed');
         }
-
+        let incomingMovie = null;
         return omdbApi.getByTitle(title)
             .then(movieDto => {
                 if (movieDto.valid()){
                     return new Movie(movieDto.title, movieDto.genre, movieDto.released, movieDto.director, userId)
                 }
-                return Promise.reject(movieDto)
+                return Promise.reject(movieDto.errorMessage)
+            })
+            .then(movie => {
+                incomingMovie = movie;
+                return movieRepository.findLatest(movie)
+            }).then(exists => {
+                    if(exists === undefined){
+                    return incomingMovie
+                }
+                return Promise.reject('Movie was already added')
             })
             .then(movie => movieRepository.save(movie))
             .catch((err) => {
                 logger.error(err)
-                return null
+                return err;
             })
     }
 

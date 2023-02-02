@@ -6,13 +6,9 @@ const swaggerUi = require("swagger-ui-express");
 const openApiOptions = require("./config/open-api")
 const moviesRouter = require("./routes/movies")
 
-const { JWT_SECRET, OMDB_API_KEY, APP_PORT } = process.env;
-if (!JWT_SECRET) {
-  throw new Error("Missing JWT_SECRET .env var. Set it and restart the server");
-}
-
-if (!OMDB_API_KEY) {
-  throw new Error("Missing OMDB_API_KEY .env var. Set it and restart the server");
+const { JWT_SECRET, OMDB_API_KEY, DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD, APP_PORT } = process.env;
+if (!JWT_SECRET || !OMDB_API_KEY || !DB_HOST || !DB_DATABASE || !DB_USER || !DB_PASSWORD ) {
+  throw new Error("Missing some .env var. Check env.example, set them and restart the server");
 }
 
 const app = express();
@@ -25,15 +21,6 @@ app.use(
     swaggerUi.setup(specs)
 );
 
-/**
- * @openapi
- * /:
- *   get:
- *     description: Welcome to swagger-jsdoc!
- *     responses:
- *       200:
- *         description: Returns a string.
- */
 app.get("/", (req, res) => res.json({message: "Welcome to Movies App!"}));
 app.use(moviesRouter);
 

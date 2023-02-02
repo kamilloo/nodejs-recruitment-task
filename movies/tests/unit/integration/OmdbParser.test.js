@@ -27,7 +27,7 @@ describe('Omdb Parser', () => {
 
         //THEN
         chai.expect(movieDTO.title).to.be.eql(expectedTitle)
-        chai.expect(movieDTO.released).to.be.eql(Date.parse(expectedReleased))
+        chai.expect(movieDTO.released).to.be.eql(new Date(Date.parse(expectedReleased)))
         chai.expect(movieDTO.genre).to.be.eql(expectedGenre)
         chai.expect(movieDTO.director).to.be.eql(expectedDirector)
 

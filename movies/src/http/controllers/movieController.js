@@ -5,8 +5,9 @@ const movieTransform = require("../responses/movieResponse")
 
 exports.get = (req, res) => {
 
+    const { page } = req.query;
     const { userId } = req;
-    return movieRepository.getall(userId)
+    return movieRepository.getByUser(userId, page || 1)
         .then(movies => {
             return {
                 data: movies.data.map(movie => movieTransform.toResponse(movie)),
@@ -27,6 +28,6 @@ exports.create = async (req, res) => {
         });
     }
     return res.status(417).send({
-        message: 'Adding Movie failed'
+        message: newMovie
     })
 }

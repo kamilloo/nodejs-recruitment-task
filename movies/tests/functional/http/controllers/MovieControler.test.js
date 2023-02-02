@@ -42,6 +42,13 @@ describe('Movies', () => {
 
     })
 
+    after(done => {
+        setTimeout(()=> {
+            process.exit(0);
+        },2000);
+        done();
+    })
+
     it('getting all Movies successful',   (done) => {
 
         //GIVEN
@@ -57,6 +64,10 @@ describe('Movies', () => {
                     chai.expect(res.status).to.be.eql(200);
                     chai.expect(res.body.data).to.be.length(1);
                     chai.expect(res.body.data[0].title).to.be.eql('title 1');
+                    chai.expect(res.body.data[0].genre).to.be.eql('genre');
+                    chai.expect(res.body.data[0].released).not.empty;
+                    chai.expect(res.body.data[0].director).to.be.eql('director');
+                    chai.expect(res.body.data[0].createdAt).not.empty;;
                     return done()
                 });
         })

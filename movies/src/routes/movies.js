@@ -7,41 +7,48 @@
  *   schemas:
  *     Movie:
  *       type: object
- *       required:
- *         - title
- *         - user
- *         - genre
- *         - released
- *         - director
- *         - createdAt
  *       properties:
  *         id:
- *           type: string
+ *           type: int
  *           description: The auto-generated id
  *         title:
  *           type: string
  *           description: The title of your movie
- *          genre:
+ *         genre:
  *           type: string
  *           description: The genre of your movie
- *          released:
+ *         released:
  *           type: string
  *           format: date
  *           description:  The date the movie was released
- *          director:
+ *         director:
  *           type: string
  *           description: The director of your movie
  *         createdAt:
  *           type: string
- *           format: date
+ *           format: dateTime
  *           description: The date the movie was added
  *       example:
- *         id: uuid
+ *         id: 1
  *         title: Superhero
  *         genre: Genre
  *         released: 2020-03-10
  *         director: John Doe
- *         createdAt: 2020-03-10T04:05:06.157Z
+ *         createdAt: 2020-03-10 04:05:06
+ *     ValidationError:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *           description: Validation failed
+ *         errors:
+ *           type: object
+ *           description: Errors
+ *           properties:
+ *              title:
+ *                  type: array
+ *                  items:
+ *                    type: string
  */
 const express = require("express");
 const router = express.Router();
@@ -56,15 +63,30 @@ const movieController = require('../http/controllers/movieController');
  *   get:
  *     summary: Lists all the movies added by authorized user
  *     tags: [Movies]
+ *     parameters:
+ *        - in: query
+ *          name: page
+ *          schema:
+ *          type: integer
+ *          description: The number of page
  *     responses:
  *       200:
  *         description: The list of the movies
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Movie'
+ *              type: object
+ *              properties:
+ *               data:
+ *                type: array
+ *                items:
+ *                  $ref: '#/components/schemas/Movie'
+ *               meta:
+ *                type: object
+ *                properties:
+ *                  page:
+ *                    type: number
+ *                    description: The number of page
  *       401:
  *         description: Unauthenticated Error
  */
@@ -80,14 +102,14 @@ router.get('/movies', auth,  movieController.get);
  *       required: true
  *       content:
  *         application/json:
- *           schema:
+ *          schema:
  *             type: object
- *          required:
- *          - title
- *          properties:
- *            title:
- *              type: string
- *              description: The title of your movie
+ *             required:
+ *             - title
+ *             properties:
+ *              title:
+ *                  type: string
+ *                  description: The title of your movie
  *     responses:
  *       200:
  *         description: Movie created successful.
@@ -95,10 +117,16 @@ router.get('/movies', auth,  movieController.get);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Movie'
- *      401:
- *         description: Unauthenticated Error
- *      422:
- *         description: Validation Error
+ *       401:
+ *          description: Unauthenticated Error
+ *       417:
+ *          description: Adding Movie failed
+ *       422:
+ *          description: Validation Error
+ *          content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ValidationError'
  *
  */
 router.post('/movies', auth, createMovieRequest, movieController.create);

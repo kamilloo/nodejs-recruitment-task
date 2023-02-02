@@ -1,8 +1,27 @@
 
 # Installation
 
+1. Clone repository.
+2. Clone `.env.example` as `.env` from `/`.
+   ```
+    cp .env.example .env
+   ```
+3. Build docker images
+   ```
+    docker-compose build
+   ```
+4. Start docker containers
+   ```
+   docker-compose up -d
+   ```
+
+4. Run database migration
+   ```
+   docker-compose up -d
+   ```
 
 # Usage
+
 
 
 # Links

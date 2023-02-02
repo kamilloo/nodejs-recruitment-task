@@ -14,7 +14,17 @@ module.exports = (port) => {
                     url: `http://localhost:${port}`,
                 },
             ],
+            components: {
+                securitySchemes: {
+                    bearerAuth: {
+                        type: 'http',
+                        scheme: 'bearer',
+                        bearerFormat: 'JWT',
+                    }
+                }
+            },
         },
-        apis: ["./routes/movies.js"],
+        apis: ["./src/routes/movies.js"],
     }
 };
+

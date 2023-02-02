@@ -14,7 +14,7 @@ function toMovie() {
     };
 }
 
-getall = async (userId = 1, page = 1) => {
+getByUser = async (userId, page = 1) => {
     const offset = helper.getOffset(page, config.listPerPage);
     const rows = await db.query(
         "SELECT id, title, genre, released, director, user_id, created_at " +
@@ -81,15 +81,18 @@ update = async (newMovie) => {
     return {message};
 }
 
-find = async (newMovie) => {
+findLatest = async (newMovie) => {
     const rows = await db.query(
         "SELECT id, title, genre, released, director, user_id, created_at " +
-        "FROM movies WHERE title = ? AND  user_id = ? LIMIT 1;",
+        "FROM movies WHERE title = ? AND  user_id = ? ORDER BY id DESC LIMIT 1;",
         [
             newMovie.title,
             newMovie.userId.toString(),
         ]
     );
+    if (!rows){
+        return null;
+    }
     return rows.map(toMovie())[0];
 }
 
@@ -108,10 +111,10 @@ destroy = async () => {
 }
 
 module.exports = {
-    getall,
+    getByUser,
     save,
     inMonthCount,
     destroy,
     update,
-    find
+    findLatest
 }
