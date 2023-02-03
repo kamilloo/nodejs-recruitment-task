@@ -17,7 +17,7 @@ jobs:
 
     services:
       mysql:
-        image: mysql:8.0.x
+        image: mysql:8.0.32
         env:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: movies
@@ -42,18 +42,9 @@ jobs:
       - name: npm install and test
         run: |
           cd ./movies
-          #cp ./ci.env .env
+          cp ./ci.env .env
           npm install
           npm run db-migrate
           npm test
-        env:
-          APP_PORT: 3000
-          JWT_SECRET: secret
-          OMDB_API_KEY: apiKey
-          LOGGER_LEVEL: fatal
-          DB_HOST: localhost
-          DB_USER: root
-          DB_PASSWORD: password
-          DB_DATABASE: movies
           
           
