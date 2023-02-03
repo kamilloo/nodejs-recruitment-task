@@ -6,6 +6,8 @@ services:
       context: auth
       dockerfile: Dockerfile
     container_name: auth
+    volumes:
+      - ./auth/src:/app/src
     ports:
       - published: ${APP_PORT:-3000}
         target: 3000
@@ -20,6 +22,9 @@ services:
       context: movies
       dockerfile: Dockerfile
     container_name: movies
+    volumes:
+      - ./movies/src:/app/src
+      - ./movies/tests:/app/tests
     ports:
       - published: ${MOVIES_PORT:-3001}
         target: ${MOVIES_PORT:-3001}

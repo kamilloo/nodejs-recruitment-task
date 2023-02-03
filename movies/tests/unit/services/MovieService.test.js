@@ -9,7 +9,7 @@ const moviePolicyService = require("../../../src/services/MoviePolicyService")
 const {Movie} = require("../../../src/models/movie");
 const {MovieDTO} = require("../../../src/models/DTO/movieDTO");
 const {MovieNotFoundDTO} = require("../../../src/models/DTO/movieNotFoundDTO");
-const { BASIC } = require("../../../src/models/descriptors/UserRole")
+const { BASIC, PREMIUM} = require("../../../src/models/descriptors/UserRole")
 
 describe('MovieService', () => {
 
@@ -38,7 +38,7 @@ describe('MovieService', () => {
 
         //WHEN
         let service = new MovieService();
-            service.create(title)
+            service.create(title, 1, PREMIUM)
                 .then((movie) => {
                 chai.expect(omdb.called).true
                 chai.expect(policy.called).true
@@ -64,7 +64,7 @@ describe('MovieService', () => {
 
         //WHEN
         let service = new MovieService();
-        service.create(title)
+        service.create(title,1,PREMIUM)
             .then((movie) => {
 
                 //THEN
@@ -91,7 +91,7 @@ describe('MovieService', () => {
 
         //WHEN
         let service = new MovieService();
-        service.create(title)
+        service.create(title, 1, PREMIUM)
             .then((movieDto) => {
                 //THEN
                 // chai.expect(movieDto.valid()).false;
@@ -116,7 +116,7 @@ describe('MovieService', () => {
 
         //WHEN
         let service = new MovieService();
-        service.create(title)
+        service.create(title, 1, PREMIUM)
 
         //THEN
         chai.expect(policy.called).true

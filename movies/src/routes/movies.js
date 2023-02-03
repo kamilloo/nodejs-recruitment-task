@@ -8,9 +8,6 @@
  *     Movie:
  *       type: object
  *       properties:
- *         id:
- *           type: int
- *           description: The auto-generated id
  *         title:
  *           type: string
  *           description: The title of your movie

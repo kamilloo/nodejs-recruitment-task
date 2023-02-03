@@ -52,7 +52,7 @@ describe('Movies', () => {
     it('getting all Movies successful',   (done) => {
 
         //GIVEN
-        const newMovie = new Movie('title 1','genre',new Date(),'director',user.id)
+        const newMovie = new Movie('title 1','genre','2000-01-01','director',user.id)
         movieRepository.save(newMovie).then(() => {
             //WHEN
             request(app)
@@ -65,7 +65,7 @@ describe('Movies', () => {
                     chai.expect(res.body.data).to.be.length(1);
                     chai.expect(res.body.data[0].title).to.be.eql('title 1');
                     chai.expect(res.body.data[0].genre).to.be.eql('genre');
-                    chai.expect(res.body.data[0].released).not.empty;
+                    chai.expect(res.body.data[0].released).to.be.eql('2000-01-01');
                     chai.expect(res.body.data[0].director).to.be.eql('director');
                     chai.expect(res.body.data[0].createdAt).not.empty;;
                     return done()
