@@ -40,9 +40,9 @@ jobs:
           mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -u root -p password -e "SHOW DATABASES"
           mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -u root -p password -e "CREATE DATABASE movies"
       - name: npm install and test
+        working-directory: ./movies
         run: |
-          cd ./movies
-          cp ./ci.env .env
+          cp ci.env .env
           npm install
           npm run db-migrate
           npm test
