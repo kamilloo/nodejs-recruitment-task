@@ -1,0 +1,59 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    services:
+      mysql:
+        image: mysql:8.0.x
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: movies
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - name: npm install, build, and test
+        run: |
+          #mysql
+          sudo service mysql start
+          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -u root -p password < etc/original.sql
+          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -u root -p password -e "SHOW DATABASES"
+          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -u root -p password -e "CREATE DATABASE movies"
+      - name: npm install and test
+        run: |
+          cd ./movies
+          #cp ./ci.env .env
+          npm install
+          npm run db-migrate
+          npm test
+        env:
+          APP_PORT: 3000
+          JWT_SECRET: secret
+          OMDB_API_KEY: apiKey
+          LOGGER_LEVEL: fatal
+          DB_HOST: localhost
+          DB_USER: root
+          DB_PASSWORD: password
+          DB_DATABASE: movies
+          
+          
