@@ -32,7 +32,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-        working-directory: ./movies
+          cache-dependency-path: movies/package-lock.json
       - name: npm install, build, and test
         run: |
           #mysql
