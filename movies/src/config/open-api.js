@@ -23,6 +23,9 @@ module.exports = (port) => {
                     }
                 }
             },
+            security: [{
+                bearerAuth: []
+            }]
         },
         apis: ["./src/routes/movies.js"],
     }

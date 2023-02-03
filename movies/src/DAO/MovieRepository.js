@@ -41,7 +41,7 @@ inMonthCount = async (userId) => {
 }
 
 save = async (newMovie) => {
-    newMovie.createdAt = new Date();;
+    newMovie.createdAt = new Date();
     const insert_result = await db.query(
         "INSERT INTO movies (title, genre, released, director, user_id, created_at)" +
         "VALUES (?,?,?,?,?,?);",

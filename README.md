@@ -2,12 +2,16 @@
 # Installation
 
 1. Clone repository.
-2. Clone `.env.example` as `.env` from `/`.
+2. Copy `example.env` as `.env` from `/`.
    ```
-    cp .env.example .env
+    cp example.env .env
    ```
    
-3. Set `OMDB_API_KEY` var environment
+3. Set environment variable `OMDB_API_KEY`
+
+   ```
+    OMDB_API_KEY="apikey"
+   ```
 
 4. Build docker images
    ```
@@ -23,17 +27,26 @@
    docker exec -it movies npm run db-migrate
    ```
 
+6. Test Movies App
+   ```
+   docker exec -it movies npm run test
+   ```
+
+# Links
+ - Api Documentation: http://localhost:3001/api-docs/
+ - Auth API: http://localhost:3000/auth
+ - Movie API: http://localhost:3001/movies
+
 # Usage
 
 1. Import Postman Collection and Environments from `movies/docs`
-2. After login copy token to postman Movies Environments
-
-
-# Links
-Api Documentation: http://localhost:3001/api-docs/
-Auth API: http://localhost:3000/auth
-Movie API: http://localhost:3001/movies
-
+2. Get token by calling `Auth` service `auth - basic` or `auth - premium`
+3. After login copy token to postman Movies Environments
+   ```
+   token - Basic user token 
+   token_premium - Premium User token
+   ```
+4. Test Manually API by Postman or Api Docs
 
 ===============================================
 # Node.js recruitment task
