@@ -17,12 +17,14 @@ jobs:
 
     services:
       mysql:
-        image: mysql:8.0.32
+        image: mysql:8
         env:
-          MYSQL_ROOT_PASSWORD: password
+          MYSQL_USER: user
           MYSQL_DATABASE: movies
+          MYSQL_PASSWORD: password
+          MYSQL_ROOT_PASSWORD: password
         ports:
-          - 3306
+          - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
@@ -33,12 +35,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
           cache-dependency-path: movies/package-lock.json
-      - name: npm install, build, and test
-        run: |
-          #mysql
-          sudo service mysql start
-          mysql --host 127.0.0.1 --port 3306 -uroot -ppassword -e "SHOW DATABASES"
-          mysql --host 127.0.0.1 --port 3306 -uroot -ppassword -e "CREATE DATABASE movies"
       - name: npm install and test
         working-directory: ./movies
         run: |
