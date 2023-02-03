@@ -10,7 +10,7 @@
 3. Set environment variable `OMDB_API_KEY`
 
    ```
-    OMDB_API_KEY="apikey"
+    OMDB_API_KEY=apikey
    ```
 
 4. Build docker images
